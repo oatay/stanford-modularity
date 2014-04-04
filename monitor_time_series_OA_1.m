@@ -279,12 +279,12 @@ if button ==1 || button ==3
         elseif j==3
             xlabel('mark whi5 entry time')
             [x1,y1,btmp]=ginput(1);
-            plot([x1 x1],[0 max_v],'color',[1 0 0],'linewidth',2)
+            plot([x1 x1],[0 max_v],'color',[1 1 0],'linewidth',2)
             cell_data(1,7)=min([numbM x1]);
         elseif j==4
             xlabel('mark whi5 exit time')
             [x1,y1,btmp]=ginput(1);
-            plot([x1 x1],[0 max_v],'color',[1 0 0],'linewidth',2)
+            plot([x1 x1],[0 max_v],'color',[1 1 0],'linewidth',2)
             cell_data(1,8)=min([numbM x1]);
         elseif j==5
             xlabel('mark initial point of Far1 concentration at pulse')
