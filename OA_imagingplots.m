@@ -189,7 +189,8 @@ for i = 1:size(data,1)
         p2 = backgr_nucFar1;%47.27;
         zdim = all_obj.volume(cellno,:)./all_obj.area(cellno,:);
         % eliminate NaNs.
-        init_zdim = mean(zdim(backgr_st:backgr_end));
+        vec_bckgr = backgr_st:backgr_end;
+        init_zdim = mean(zdim(vec_bckgr(~(isnan(zdim(vec_bckgr))))));
         autofl_nucfar1 = p1.*(zdim-init_zdim) + p2;
         nucFar1 = all_obj.nuc_Far1(cellno,:) - autofl_nucfar1;
         plot(nucFar1)
