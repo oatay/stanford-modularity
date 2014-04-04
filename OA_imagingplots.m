@@ -185,7 +185,7 @@ for i = 1:size(data,1)
     backgr_nucFar1 = mean(all_obj.nuc_Far1(cellno,backgr_st:backgr_end));
     hold on
     if far1_end < 100
-        p1 = 5; % p(1)
+        p1 = 5; % p(1) % this must be calculated properly using autofluorescence.
         p2 = backgr_nucFar1;%47.27;
         zdim = all_obj.volume(cellno,:)./all_obj.area(cellno,:);
         % eliminate NaNs.
