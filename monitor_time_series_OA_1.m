@@ -13,7 +13,7 @@ function [cell_data]=monitor_time_series_OA_1(flc,initial_tp,no_cell_of_interest
 %"1" and "3" on the numpad will move it 10 timeopints -+
 
 no_tp   =numbM;%length(all_obj.max_nucl_int(1,:));
-cell_data=-ones(1,12);
+cell_data=-ones(1,10);
 no_cells=length(all_obj.max_nucl_int(:,1));
 %cell_data=0;%time of whi5-exit if cell is ok
 disp(['cell no: ' num2str(no_cell_of_interest) '/' num2str(no_cells) ', left click for mother - right click for daughter at time of bud emergence'])
