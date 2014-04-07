@@ -1,8 +1,8 @@
 clear all
-positions = [1 2 3 4 5 6 7 8 9 10 11 12 13 14];
-filename = 'OA_032714_OA045_46_Longpulse_pos_no_6_re_exp';
+positions = [8 11:19 21];
+filename = 'OA_030714_OA039L381-L392-Longpulse_pos_no_5_re_exp';
 load(filename)
-lim_h=[31 61 66 76];%[11 41 46 56];            % <- change for each new exp
+lim_h=[11 41 46 56];   % [31 61 66 76]         % <- change for each new exp
 % [21 26]
 % [31 61 66 76]
 % [21 41 42 46 47 51 52 56]
