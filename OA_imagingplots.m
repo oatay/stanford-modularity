@@ -174,34 +174,51 @@ perdiffcyt/i
     
 
 %% percentage decrease in nuclear far1
-perdiff =0;
+clear all; clc; close all;
+perdifftot = 0;
 j = 0;
-for i = 1:size(data,1)
-    far1_st = round(data(i,9));
-    far1_end = round(data(i,10));
-    cellno = interesting_cells(i);
-    backgr_st = round(data(i,5));
-    backgr_end = round(data(i,6));
-    backgr_nucFar1 = mean(all_obj.nuc_Far1(cellno,backgr_st:backgr_end));
-    hold on
-    if far1_end < 100
-        p1 = 5; % p(1) % this must be calculated properly using autofluorescence.
-        p2 = backgr_nucFar1;%47.27;
-        zdim = all_obj.volume(cellno,:)./all_obj.area(cellno,:);
-        % eliminate NaNs.
+per_decreases = zeros(1,1);
+abs_decreases = zeros(1,1);
+for pos = [1 11:14] 
+    filename = 'OA_032714_OA045_46_Longpulse_pos_no_';
+    load([filename int2str(pos) '_re_exp_analysis']);
+    load([filename int2str(pos) '_re_exp']);
+
+
+    for i = 1:size(data,1)
+        far1_st = round(data(i,9));
+        far1_end = round(data(i,10));
+        cellno = interesting_cells(i);
+        backgr_st = round(data(i,5));
+        backgr_end = round(data(i,6));
         vec_bckgr = backgr_st:backgr_end;
-        init_zdim = mean(zdim(vec_bckgr(~(isnan(zdim(vec_bckgr))))));
-        autofl_nucfar1 = p1.*(zdim-init_zdim) + p2;
-        nucFar1 = all_obj.nuc_Far1(cellno,:) - autofl_nucfar1;
-        plot(nucFar1)
-        diff = nucFar1(far1_st) - nucFar1(far1_end);
-        diff / nucFar1(far1_st)
-        perdiff = perdiff + diff / nucFar1(far1_st);
-        j = j +1;
+        if isempty(vec_bckgr)
+            vec_bckgr = backgr_end:backgr_st;
+        end
+        
+        backgr_nucFar1 = mean(all_obj.nuc_Far1(cellno,vec_bckgr));
+        hold on
+        if far1_end < 100
+            p1 = 5; % p(1) % this must be calculated properly using autofluorescence.
+            p2 = backgr_nucFar1;%47.27;
+            zdim = all_obj.volume(cellno,:)./all_obj.area(cellno,:);
+            % eliminate NaNs.
+            init_zdim = mean(zdim(vec_bckgr(~(isnan(zdim(vec_bckgr))))));
+            autofl_nucfar1 = p1.*(zdim-init_zdim) + p2;
+            nucFar1 = all_obj.nuc_Far1(cellno,:) - autofl_nucfar1;
+            plot(nucFar1)
+            diff = nucFar1(far1_st) - nucFar1(far1_end);
+            perdiff = diff / nucFar1(far1_st);
+            perdifftot = perdifftot + diff / nucFar1(far1_st);
+            j = j +1;            
+            abs_decreases(j) = diff;
+            per_decreases(j) = perdiff;
+        end
     end
 end
-
-perdiff/j
+per_decreases_pos = per_decreases(per_decreases > 0);
+per_decreases_pos = per_decreases_pos(per_decreases_pos < 1);
+perdifftot/j
 %%
 
 
