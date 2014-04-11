@@ -92,6 +92,8 @@ imshow(outline+IG);title('Far1-GFP')
 text(10,10,['time = ' num2str(initial_tp)],'color',[0 1 0])
 %%
 % find saturated images
+load('OA_030214_29re253-re263_12nM_pos_no_20_re_exp')
+
 
 finaltp = length(all_obj.max_nucl_int(1,:));
 threshold = 9;
@@ -117,7 +119,7 @@ for initial_tp = 1:finaltp
         end
 
         if ((nosatpixelN > threshold) && ~ismember(no_cell_of_interest, saturatedcells))
-        disp(strcat('saturation' ,' time:' , num2str(initial_tp) , ' cell:' , num2str(no_cell_of_interest), ' no of sat. pixels (IN):', num2str(nosatpixel)))
+        disp(strcat('saturation' ,' time:' , num2str(initial_tp) , ' cell:' , num2str(no_cell_of_interest), ' no of sat. pixels (IN):', num2str(nosatpixelN)))
         saturatedcells = [saturatedcells no_cell_of_interest];
         end
     end
@@ -174,12 +176,12 @@ perdiffcyt/i
     
 
 %% percentage decrease in nuclear far1
-clear all; clc; close all;
+clc; close all;
 perdifftot = 0;
 j = 0;
 per_decreases = zeros(1,1);
 abs_decreases = zeros(1,1);
-for pos = [1 11:14] 
+for pos = [1 11:19]
     filename = 'OA_032714_OA045_46_Longpulse_pos_no_';
     load([filename int2str(pos) '_re_exp_analysis']);
     load([filename int2str(pos) '_re_exp']);
@@ -216,9 +218,11 @@ for pos = [1 11:14]
         end
     end
 end
-per_decreases_pos = per_decreases(per_decreases > 0);
-per_decreases_pos = per_decreases_pos(per_decreases_pos < 1);
-perdifftot/j
+per_decreases_pos = per_decreases(per_decreases < 1);
+per_decreases_pos = per_decreases_pos(per_decreases_pos > -1);
+abs_decreases_pos = abs_decreases(per_decreases < 1);
+abs_decreases_pos = abs_decreases_pos(per_decreases_pos > -1);
+
 %%
 
 
