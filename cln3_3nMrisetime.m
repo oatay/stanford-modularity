@@ -6,6 +6,9 @@ fnorm = 0.10; % (arbitrary) decrease to increase smoothing
 indd = 1;
 indm = 1;
 ind = 1;
+allcln3alignedd = cell{1};
+allxdatad = cell{1};
+
 for pos = [2 3 4 5 7 8 10 11]
     load([backgroundfile int2str(pos) '_re_exp_vol']);
     load([backgroundfile int2str(pos) '_re_exp_vol_Cln3increase']);
@@ -26,7 +29,7 @@ for pos = [2 3 4 5 7 8 10 11]
     cln3conc = totCln3./all_obj.volume_ax;
     
     for i = 1:size(data,1)
-        close all
+        %close all
         hold all
         startp = data(i,7);
         endp = data(i,8);
@@ -39,8 +42,8 @@ for pos = [2 3 4 5 7 8 10 11]
         smoothcln3 = filtfilt(b,a,cln3data);
         
         midcln3= (max(smoothcln3) + min(smoothcln3))/2;
-        plot((from:to).*6, cln3data)
-        plot((from:to).*6, smoothcln3)
+        %plot(cln3data)
+        
 
         
         mincln3values(ind) = min(smoothcln3);
@@ -53,6 +56,8 @@ for pos = [2 3 4 5 7 8 10 11]
         %pause(10)
         if data(i,3) == 1
             timetohalfmaxd(indd) = (midtimepoint - startp)*6;
+            allcln3alignedd{indd} = smoothcln3;
+            allxdatad{indd} = ((from:to)-from).*6;
             indd = indd + 1;
         else
             timetohalfmaxm(indm) = (midtimepoint - startp)*6;
@@ -63,3 +68,24 @@ end
 median(timetohalfmaxd)
 std(bootstrp(1000,@median,timetohalfmaxd))
 
+%%
+for i = 1:size(allcln3alignedd,2)
+    allcln3alignedd{i} = allcln3alignedd{i}./median(allcln3alignedd{i});
+    plot(allxdata{i}, allydata{i})
+    curx = allxdatad{i}(1:end);
+    cury = allcln3alignedd{i}(1:end);
+    td = [td curx];
+    yd = [yd cury];
+end
+
+td = td(2:end);
+yd = yd(2:end);
+
+[bin binmeds binstds] = makebins(td,yd,-300,24,35);
+figure(2)
+hold on
+ciplot((binmeds-binstds), (binmeds+binstds), bin,'r')
+plot(bin,binmeds,'LineWidth',3)
+ylim([0 2])
+xlim([-150 25])
+hold off

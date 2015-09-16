@@ -436,27 +436,29 @@ backgroundfile = 'OA_071015_OA042_refurb_3nM6min_pos_no_';
 for pos = 2
     load([backgroundfile int2str(pos) '_re_exp_Far1L92Pnucentry']);
     load([backgroundfile int2str(pos) '_re_exp']);
+    for i = 1:size(data,1)
     cellno = data(i,1);
-    if cellno == 13
-        hold all
-        
-        
+        if cellno == 13
+            hold all
 
-        curr_plot_Far1nuc = all_obj.nuc_Far1(cellno,:);
-        p1 = 7.493; p2 = 47.27;
-        zdim = all_obj.volume(cellno,:)./all_obj.area(cellno,:);
-        autofl_nucfar1 = p1.*zdim + p2;
-        far1nuc = curr_plot_Far1nuc-autofl_nucfar1;
-        far1nuc(isnan(far1nuc)) = 0;
-        whi5nuc = (all_obj.nuc_whi5R(cellno,:)-all_obj.cyt_whi5R(cellno,:))./zdim;
 
-        far1nucnorm = far1nuc./zdim;
-        plot(35*6:6:74*6,far1nucnorm(36:75))
-        plot(35*6:6:74*6, whi5nuc(36:75),'r')
-        plot([data(i,5)*6 data(i,5)*6], [0 max(far1nucnorm)])
-        plot([data(i,6)*6 data(i,6)*6], [0 max(far1nucnorm)])
-        xlim([35*6 75*6])
-        ylim([0 30])
+
+            curr_plot_Far1nuc = all_obj.nuc_Far1(cellno,:);
+            p1 = 7.493; p2 = 47.27;
+            zdim = all_obj.volume(cellno,:)./all_obj.area(cellno,:);
+            autofl_nucfar1 = p1.*zdim + p2;
+            far1nuc = curr_plot_Far1nuc-autofl_nucfar1;
+            far1nuc(isnan(far1nuc)) = 0;
+            whi5nuc = (all_obj.nuc_whi5R(cellno,:)-all_obj.cyt_whi5R(cellno,:))./zdim;
+
+            far1nucnorm = far1nuc./zdim;
+            plot(35*6:6:74*6,far1nucnorm(36:75))
+            plot(35*6:6:74*6, whi5nuc(36:75),'r')
+            plot([data(i,5)*6 data(i,5)*6], [0 max(far1nucnorm)])
+            plot([data(i,6)*6 data(i,6)*6], [0 max(far1nucnorm)])
+            xlim([35*6 75*6])
+            ylim([0 30])
+        end
     end
 end
 %%

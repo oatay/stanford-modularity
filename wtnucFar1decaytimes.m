@@ -153,7 +153,7 @@ filename = 'OA_061015_OA040_3nM6min_pos_no_13_re_exp';
 load(filename)
 cellno = 8; 
 %pos=2; cellno =1; t 25;50;75;
-initial_tp=56; % t=113-116
+initial_tp=113; % t=113-116
 c_num   ='c1';%phase
 [im_name] = get_image_name(prefix,pos_num,suffix,initial_tp, c_num,type,suffix2,numbM);
 I=imread(im_name);
@@ -172,6 +172,10 @@ figure(2)
 imshow(outline+IN);title('mKok')
 figure(3)
 imshow(outline+IG);title('GFP')
+
+imshow(IG)
+figure(4)
+imshow(uint8(all_obj.cells(:,:,113)==8).*IG)
 %%
 
 close all;
