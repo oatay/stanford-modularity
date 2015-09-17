@@ -44,7 +44,7 @@ for pos = [2 3 4 5 7 8 10 11]
         smoothcln3 = filtfilt(b,a,cln3data);
         
         midcln3= (max(smoothcln3) + min(smoothcln3))/2;
-        %plot(cln3data)
+        plot(cln3data)
         
 
         
@@ -78,23 +78,28 @@ if size(allcln3alignedd,2) > 15
 end
 
 %%
+clear all;clc;close all;
+load 'OA_070815_11Abar1d_refurb_3nM6min_pos_no_alignedCln3'
+td = zeros(1,1);
+yd = zeros(1,1);
+hold all
 for i = 1:size(allcln3alignedd,2)
     allcln3alignedd{i} = allcln3alignedd{i}./median(allcln3alignedd{i});
-    plot(allxdata{i}, allcln3alignedd{i})
+    plot(allxdatad{i}, allcln3alignedd{i})
     curx = allxdatad{i}(1:end);
     cury = allcln3alignedd{i}(1:end);
     td = [td curx];
     yd = [yd cury];
 end
-
+hold off
 td = td(2:end);
 yd = yd(2:end);
 
 [bin binmeds binstds] = makebins(td,yd,0,300,30);
 figure(2)
-hold on
+hold all
 ciplot((binmeds-binstds), (binmeds+binstds), bin,'r')
 plot(bin,binmeds,'LineWidth',3)
-ylim([0 0.5])
-xlim([0 200])
+ylim([0 2])
+xlim([0 300])
 hold off

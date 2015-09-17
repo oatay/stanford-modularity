@@ -14,6 +14,9 @@ dClb5duringarrest = zeros(1,1);
 mClb5duringarrest = zeros(1,1);
 dClb5afterarrest = zeros(1,1);
 mClb5afterarrest = zeros(1,1);
+dalignedatfiring = cell(1);
+talignedatfiring = cell(1);
+
 for pos = [3 6 7 8 9 10 11]
     load([file int2str(pos) '_re_exp_analysis']);
     load([file int2str(pos) '_re_exp']);
@@ -114,6 +117,7 @@ for pos = [3 6 7 8 9 10 11]
                     darrestduration(d) = (reentry-startp)*6;
                     dClb5halfmaxduration(d) = Clb5halfmax_duration;
                     dClb5Whi5diff(d) = Clb5_Whi5_diff;
+                    
                     if cellno == 23 
                         pause(50) 
                     end
@@ -130,8 +134,8 @@ end
 dClb5duringarrest = dClb5duringarrest(2:end);
 dClb5afterarrest = dClb5afterarrest(2:end);
 
-if ind > 15
-    save(['arrestClb5pr3nM' '_' 'results'],'darrestduration','dClb5duringarrest','dClb5halfmaxduration',...
-        'dClb5Whi5diff','dClb5increase','dClb5afterarrest','marrestduration','mClb5duringarrest','mClb5halfmaxduration',...
-        'mClb5Whi5diff','mClb5increase','mClb5afterarrest','chosencellpos','chosencellno');
-end
+% if ind > 15
+%     save(['arrestClb5pr3nM' '_' 'results'],'darrestduration','dClb5duringarrest','dClb5halfmaxduration',...
+%         'dClb5Whi5diff','dClb5increase','dClb5afterarrest','marrestduration','mClb5duringarrest','mClb5halfmaxduration',...
+%         'mClb5Whi5diff','mClb5increase','mClb5afterarrest','chosencellpos','chosencellno');
+% end
