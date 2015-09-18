@@ -108,23 +108,26 @@ yd = zeros(1,1);
 for i = 1:size(allydata,2)
     curx = allxdata{i};
     curendp = curx(end);
-    allxdata{i} = (allxdata{i} - curendp).*6;
-    plot(allxdata{i}, allydata{i})
-    curx = allxdata{i}(1:end);
-    cury = allydata{i}(1:end);
-    td = [td curx];
-    yd = [yd cury];
+    if curendp > 30 % already peaked 100 minutes before arrest
+        allydata{i} = allydata{i}./median(allydata{i});
+        allxdata{i} = (allxdata{i} - curendp).*6 + 24;
+        plot(allxdata{i}, allydata{i})
+        curx = allxdata{i}(1:end);
+        cury = allydata{i}(1:end);
+        td = [td curx];
+        yd = [yd cury];
+    end
 end
 
 td = td(2:end);
 yd = yd(2:end);
 
 
-[bin binmeds binstds] = makebins(td,yd,-200,20,30);
+[bin binmeds binstds] = makebins(td,yd,-150,20,25);
 figure(2)
 hold all
 ciplot((binmeds-binstds), (binmeds+binstds), bin,'r')
 plot(bin,binmeds,'LineWidth',3)
-ylim([0 1])
-xlim([-200 10])
+ylim([0 2])
+xlim([-150 20])
 hold off

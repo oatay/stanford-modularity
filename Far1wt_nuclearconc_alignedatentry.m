@@ -141,14 +141,32 @@ end
 clear all; clc; close all;
 load OA_061015_OA040_3nM6min_pos_no_alignedFar1_fixed
 hold all
+td = zeros(1,1);
+yd = zeros(1,1);
+
 for i = 1:size(allydata,2)
     curx = allxdata{i};
     curendp = curx(end);
-    allxdata{i} = (allxdata{i} - curendp).*6;
-    plot(allxdata{i}, allydata{i})
-    pause(1)
+    if curendp > 30 % already peaked 100 minutes before arrest
+        allydata{i} = allydata{i}./median(allydata{i});
+        allxdata{i} = (allxdata{i} - curendp).*6 + 24;
+        plot(allxdata{i}, allydata{i})
+        curx = allxdata{i}(1:end);
+        cury = allydata{i}(1:end);
+        td = [td curx];
+        yd = [yd cury];
+    end
 end
 
-% the code here is somehow lost: normalize by median for each ydata
-% then ciplot the results with the binned medians (can take it from the
-% cln3 version)
+td = td(2:end);
+yd = yd(2:end);
+
+
+[bin binmeds binstds] = makebins(td,yd,-150,20,30);
+figure(2)
+hold all
+ciplot((binmeds-binstds), (binmeds+binstds), bin,'r')
+plot(bin,binmeds,'LineWidth',3)
+ylim([0 2])
+xlim([-150 20])
+hold off
