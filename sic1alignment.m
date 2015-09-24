@@ -79,9 +79,9 @@ td = td(2:end);
 yd = yd(2:end);
 
 
-[bin binmeds binstds] = makebins(td,yd,-200,20,30);
 figure(2)
 hold all
+[bin binmeds binstds] = makebins(td,yd,-200,20,30);
 ciplot((binmeds-binstds), (binmeds+binstds), bin,'r')
 plot(bin,binmeds,'LineWidth',3)
 ylim([0 1])
