@@ -491,4 +491,14 @@ if cellno == 17
     xlim([41*6 110*6])
     ylim([-1.1 4.9])
 end
+%%
+cln3 = 0:0.01:1;
+Km = 0.5;
+n = 1;
+b = 1;
+n = 16;
+clb5 = (b.*cln3.^n)./(Km^n+cln3.^n);
+plot(cln3,clb5,'LineWidth',1.5)
+
+
 
